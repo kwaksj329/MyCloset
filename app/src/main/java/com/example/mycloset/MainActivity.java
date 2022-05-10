@@ -1,9 +1,13 @@
 package com.example.mycloset;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.widget.LinearLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,24 +18,67 @@ import com.example.mycloset.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ActivityMainBinding binding;
+    final String TAG = this.getClass().getSimpleName();
+
+    LinearLayout home_ly;
+    BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        init();
+        SettingListener();
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(binding.navView, navController);
+        bottomNavigationView.setSelectedItemId(R.id.tab_cody);
     }
 
+    private void init(){
+        home_ly = findViewById(R.id.home_ly);
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+    }
+
+    private void SettingListener(){
+        bottomNavigationView.setOnItemSelectedListener(new TabSelectedListener());
+    }
+
+    class TabSelectedListener implements BottomNavigationView.OnItemSelectedListener{
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem){
+            switch (menuItem.getItemId()){
+                case R.id.tab_cody:{
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.home_ly, new CodyFragment())
+                            .commit();
+                    return true;
+                }
+                case R.id.tab_closet:{
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.home_ly, new ClosetFragment())
+                            .commit();
+                    return true;
+                }
+                case R.id.tab_add: {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.home_ly, new AddFragment())
+                            .commit();
+                    return true;
+                }
+                case R.id.tab_weather:{
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.home_ly, new WeatherFragment())
+                            .commit();
+                    return true;
+                }
+                case R.id.tab_setting:{
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.home_ly, new SettingFragment())
+                            .commit();
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }
