@@ -17,7 +17,7 @@
         android:layout_height="56dp"
         app:menu="@menu/btm_navi_menu"
         app:itemBackground="@android:color/white"
-        app:itemIconTint="@android:color/white"
+        app:itemIconTint="@android:color/black"
         app:itemTextColor="@android:color/black">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
