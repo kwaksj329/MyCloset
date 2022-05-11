@@ -92,16 +92,16 @@ public class AddFragment extends Fragment {
             startActivity(intent);
         });
 
-        openSomeActivityForResult();
+        openSelectPhotoForResult();
         return v;
     }
-    public void openSomeActivityForResult() {
+    public void openSelectPhotoForResult() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        someActivityResultLauncher.launch(intent);
+        SelectPhotoResultLauncher.launch(intent);
     }
 
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+    ActivityResultLauncher<Intent> SelectPhotoResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
                 @Override

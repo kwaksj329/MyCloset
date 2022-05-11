@@ -11,13 +11,17 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
+import java.io.FileOutputStream;
 
 public class ResultActivity extends AppCompatActivity {
     Bitmap resultingImage;
+    private static String imgName = "osz.png";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,17 @@ public class ResultActivity extends AppCompatActivity {
         result.setImageBitmap(resultingImage);
 
         findViewById(R.id.save_btn).setOnClickListener(view -> {
-            File fileDataBase = getDatabasePath("Android"); String getDatabasePath = fileDataBase.getPath();
+            File directory = getApplicationContext().getFilesDir();
+            File file = new File(directory, imgName);
+            try {
+                file.createNewFile();
+                FileOutputStream out = new FileOutputStream(file);
+                resultingImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+                out.close();
+                Toast.makeText(getApplicationContext(), "파일 저장 성공", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(getApplicationContext(), "파일 저장 실패", Toast.LENGTH_SHORT).show();
+            }
 
             finish();
         });
