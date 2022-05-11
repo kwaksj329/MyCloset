@@ -1,20 +1,13 @@
 package com.example.mycloset;
 
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.mycloset.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -81,4 +74,5 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     }
+
 }
