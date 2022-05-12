@@ -3,10 +3,15 @@ package com.example.mycloset;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.room.Room;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +64,21 @@ public class ClosetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_closet, container, false);
+        View v = inflater.inflate(R.layout.fragment_closet, container, false);
+        GridView closetGridview = v.findViewById(R.id.closetGridview);
+        GridListAdapter adapter = new GridListAdapter();
+
+        AppDatabase db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                AppDatabase.class, "closet").allowMainThreadQueries().build();
+        ClothDao clothDao = db.clothDao();
+
+        List<Cloth> temp = clothDao.getAll();
+
+        for(Cloth tempCloth : temp){
+            adapter.addItem(tempCloth);
+        }
+        closetGridview.setAdapter(adapter);
+
+        return v;
     }
 }
