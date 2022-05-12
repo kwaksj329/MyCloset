@@ -4,25 +4,25 @@
         android:id="@+id/tab_cody"
         android:enabled="true"
         android:icon="@drawable/ic_cody"
-        android:title="코디"/>
+        android:title="cody"/>
     <item
         android:id="@+id/tab_closet"
         android:enabled="true"
         android:icon="@drawable/ic_closet"
-        android:title="옷장"/>
+        android:title="closet"/>
     <item
         android:id="@+id/tab_add"
         android:enabled="true"
         android:icon="@drawable/ic_add"
-        android:title="추가"/>
+        android:title="add"/>
     <item
         android:id="@+id/tab_weather"
         android:enabled="true"
         android:icon="@drawable/ic_weather"
-        android:title="날씨"/>
+        android:title="weather"/>
     <item
         android:id="@+id/tab_setting"
         android:enabled="true"
         android:icon="@drawable/ic_setting"
-        android:title="설정"/>
+        android:title="setting"/>
 </menu>
