@@ -18,4 +18,13 @@ public interface ClothDao {
 
     @Query("SELECT * FROM cloth")
     List<Cloth> getAll();
+
+    @Query("SELECT * FROM cloth WHERE category = :category" + " AND spring=1")
+    List<Cloth> getSpringSelected(String category);
+    @Query("SELECT * FROM cloth WHERE category = :category" + " AND summer=1")
+    List<Cloth> getSummerSelected(String category);
+    @Query("SELECT * FROM cloth WHERE category = :category" + " AND fall=1")
+    List<Cloth> getFallSelected(String category);
+    @Query("SELECT * FROM cloth WHERE category = :category" + " AND winter=1")
+    List<Cloth> getWinterSelected(String category);
 }

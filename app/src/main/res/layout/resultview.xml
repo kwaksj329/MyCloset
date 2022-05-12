@@ -40,11 +40,11 @@
                 android:textAlignment="center" />
 
             <EditText
-                android:id="@+id/editTextTextPersonName2"
+                android:id="@+id/clothName_editText"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-                android:inputType="textPersonName" />
+                android:inputType="text" />
 
         </LinearLayout>
 
@@ -58,14 +58,57 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="계절" />
+                android:text="종류" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/category_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
                 android:contentDescription="@string/app_name" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="계절" />
+
+            <CheckBox
+                android:id="@+id/spring_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="봄" />
+
+            <CheckBox
+                android:id="@+id/summer_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="여름" />
+
+            <CheckBox
+                android:id="@+id/fall_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="가을" />
+
+            <CheckBox
+                android:id="@+id/winter_checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="겨울" />
         </LinearLayout>
 
         <Button
@@ -74,5 +117,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="save" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

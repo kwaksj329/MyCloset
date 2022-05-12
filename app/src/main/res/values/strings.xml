@@ -6,10 +6,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string-array name="seasons_array">
-        <item>봄</item>
-        <item>여름</item>
-        <item>가을</item>
-        <item>겨울</item>
+    <string-array name="category_array">
+        <item>상의</item>
+        <item>아우터</item>
+        <item>바지</item>
+        <item>원피스</item>
+        <item>스커트</item>
+        <item>가방</item>
+        <item>신발</item>
     </string-array>
 </resources>

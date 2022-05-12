@@ -1,4 +1,4 @@
-package com.example.mycloset;
+    package com.example.mycloset;
 
 import android.app.Activity;
 import android.content.Intent;

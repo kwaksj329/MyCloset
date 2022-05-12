@@ -1,22 +1,25 @@
 package com.example.mycloset;
 
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+
 @Entity
 public class Cloth {
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     public int uid;
+    public String cloth_name;
 
-    public String season;
+    public byte[] clothImage;
 
-    @ColumnInfo(name = "last_name")
-    public String lastName;
+    public String category;
+    public boolean spring;
+    public boolean summer;
+    public boolean fall;
+    public boolean winter;
 
-    public Cloth (int uid, String season, String lastName) {
-        this.uid = uid;
-        this.season = season;
-        this.lastName = lastName;
+    @Override
+    public String toString() {
+        return "uid => " + this.uid + ", name => " + this.cloth_name + ", category => " + this.category + ", spring => " + this.spring + ", summer => " + this.summer + ", fall => " + this.fall + ", winter => " + this.winter;
     }
 }
