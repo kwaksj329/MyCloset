@@ -107,7 +107,7 @@ public class ResultActivity extends AppCompatActivity {
             cloth.winter = winter.isChecked();
             cloth.category = selectedCategory;
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            resultingImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            resultingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
             cloth.clothImage = stream.toByteArray();
             clothDao.insertAll(cloth);
             List<Cloth> temp = clothDao.getSpringSelected("상의");
