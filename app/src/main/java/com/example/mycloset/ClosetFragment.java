@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Spinner;
 
 import java.util.List;
 
@@ -28,6 +31,12 @@ public class ClosetFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private AppDatabase db;
+    private ClothDao clothDao;
+    private String[] categoryArray;
+    private String selectedCategory;
+    private int selectedSeason;
 
     public ClosetFragment() {
         // Required empty public constructor
@@ -54,6 +63,14 @@ public class ClosetFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = Room.databaseBuilder(getActivity().getApplicationContext(),
+                AppDatabase.class, "closet").allowMainThreadQueries().build();
+        clothDao = db.clothDao();
+
+        categoryArray = getResources().getStringArray(R.array.category_array);
+        selectedCategory = "상의";
+        selectedSeason = 0;
+
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -68,11 +85,84 @@ public class ClosetFragment extends Fragment {
         GridView closetGridview = v.findViewById(R.id.closetGridview);
         GridListAdapter adapter = new GridListAdapter();
 
-        AppDatabase db = Room.databaseBuilder(getActivity().getApplicationContext(),
-                AppDatabase.class, "closet").allowMainThreadQueries().build();
-        ClothDao clothDao = db.clothDao();
+        Spinner season_spinner = (Spinner) v.findViewById(R.id.season_spinner);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> season_spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.season_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        season_spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        season_spinner.setAdapter(season_spinner_adapter);
+        season_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                adapter.clear();
+                selectedSeason = i;
+                List<Cloth> temp = null;
+                switch(selectedSeason){
+                    case 0:
+                        temp = clothDao.getSpringSelected(selectedCategory);
+                        break;
+                    case 1:
+                        temp = clothDao.getSummerSelected(selectedCategory);
+                        break;
+                    case 2:
+                        temp = clothDao.getFallSelected(selectedCategory);
+                        break;
+                    case 3:
+                        temp = clothDao.getWinterSelected(selectedCategory);
+                        break;
+                }
+                for(Cloth tempCloth : temp){
+                    adapter.addItem(tempCloth);
+                }
+            }
 
-        List<Cloth> temp = clothDao.getAll();
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        Spinner category_selector = (Spinner) v.findViewById(R.id.category_selector);
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> category_selector_adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.category_array, android.R.layout.simple_spinner_item);
+// Specify the layout to use when the list of choices appears
+        category_selector_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+// Apply the adapter to the spinner
+        category_selector.setAdapter(category_selector_adapter);
+        category_selector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                adapter.clear();
+                selectedCategory = categoryArray[i];
+                List<Cloth> temp = null;
+                switch(selectedSeason){
+                    case 0:
+                        temp = clothDao.getSpringSelected(selectedCategory);
+                        break;
+                    case 1:
+                        temp = clothDao.getSummerSelected(selectedCategory);
+                        break;
+                    case 2:
+                        temp = clothDao.getFallSelected(selectedCategory);
+                        break;
+                    case 3:
+                        temp = clothDao.getWinterSelected(selectedCategory);
+                        break;
+                }
+                for(Cloth tempCloth : temp){
+                    adapter.addItem(tempCloth);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        List<Cloth> temp = clothDao.getSpringSelected("상의");
 
         for(Cloth tempCloth : temp){
             adapter.addItem(tempCloth);

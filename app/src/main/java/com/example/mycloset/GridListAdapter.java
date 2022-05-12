@@ -19,6 +19,10 @@ public class GridListAdapter extends BaseAdapter {
         cloths.add(cloth);
     }
 
+    public void clear(){
+        cloths.clear();
+    }
+
     @Override
     public int getCount(){
         return cloths.size();
