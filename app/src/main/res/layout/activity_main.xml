@@ -22,24 +22,24 @@
             android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="">
 
-            <ImageView
-                android:layout_width="78dp"
-                android:layout_height="54dp"
-                android:layout_gravity="left"
-                android:src="@drawable/ic_logo" />
+                <ImageView
+                    android:layout_width="78dp"
+                    android:layout_height="54dp"
+                    android:layout_gravity="left"
+                    android:src="@drawable/ic_logo" />
 
-            <ImageView
-                android:layout_width="182dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center"
-                android:src="@drawable/ic_mycloset_en" />
+                <ImageView
+                    android:layout_width="182dp"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_mycloset_en" />
 
-        </LinearLayout>
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
