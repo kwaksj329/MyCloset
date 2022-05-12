@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -16,7 +17,7 @@ import androidx.annotation.Nullable;
 public class CropTouchView extends View {
     public static PinPoint head;
     private PinPoint current;
-    private Paint paint = new Paint();
+    private Paint paint;
     private boolean completed;
 
     private Bitmap toCrop;
@@ -36,30 +37,34 @@ public class CropTouchView extends View {
 
     public CropTouchView(Context context) {
         super(context);
-        paint.setStrokeWidth(10.0f);
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setPathEffect(new DashPathEffect(new float[] { 10, 20 }, 0));
+        paint.setStrokeWidth(5);
+        paint.setColor(Color.BLACK);
+
         head = new PinPoint((float)-100, (float)-100);
         this.completed = false;
     }
 
     public CropTouchView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        paint.setStrokeWidth(10.0f);
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setPathEffect(new DashPathEffect(new float[] { 10, 20 }, 0));
+        paint.setStrokeWidth(5);
+        paint.setColor(Color.BLACK);
         head = new PinPoint((float)-100, (float)-100);
         this.completed = false;
     }
 
     public CropTouchView(Context context, @Nullable AttributeSet attrs, int defStyleAtt) {
         super(context, attrs, defStyleAtt);
-        paint.setStrokeWidth(10.0f);
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint = new Paint();
         paint.setAntiAlias(true);
+        paint.setPathEffect(new DashPathEffect(new float[] { 10, 20 }, 0));
+        paint.setStrokeWidth(5);
+        paint.setColor(Color.BLACK);
         head = new PinPoint((float)-100, (float)-100);
         this.completed = false;
     }

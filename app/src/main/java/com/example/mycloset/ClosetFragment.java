@@ -68,8 +68,6 @@ public class ClosetFragment extends Fragment {
         clothDao = db.clothDao();
 
         categoryArray = getResources().getStringArray(R.array.category_array);
-        selectedCategory = "상의";
-        selectedSeason = 0;
 
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -81,6 +79,8 @@ public class ClosetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        selectedCategory = "상의";
+        selectedSeason = 0;
         View v = inflater.inflate(R.layout.fragment_closet, container, false);
         GridView closetGridview = v.findViewById(R.id.closetGridview);
         GridListAdapter adapter = new GridListAdapter();
@@ -116,6 +116,8 @@ public class ClosetFragment extends Fragment {
                 for(Cloth tempCloth : temp){
                     adapter.addItem(tempCloth);
                 }
+                closetGridview.setAdapter(adapter);
+
             }
 
             @Override
@@ -154,6 +156,8 @@ public class ClosetFragment extends Fragment {
                 for(Cloth tempCloth : temp){
                     adapter.addItem(tempCloth);
                 }
+                closetGridview.setAdapter(adapter);
+
             }
 
             @Override
