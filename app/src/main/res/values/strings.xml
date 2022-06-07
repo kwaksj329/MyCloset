@@ -22,4 +22,15 @@
         <item>가방</item>
         <item>신발</item>
     </string-array>
+
+    <string-array name="codyTip_array">
+        <item>패딩, 두꺼운 코트, 누빔 옷, 기모, 목도리</item>
+        <item>울 코트, 히트텍, 가죽 옷, 기모</item>
+        <item>트렌치 코트, 야상 점퍼, 스타킹, 기모바지</item>
+        <item>자켓, 가디건, 청자켓, 니트, 스타킹, 청바지</item>
+        <item>얇은 가디건이나 니트 맨투맨, 후드, 긴 바지</item>
+        <item>블라우스, 긴팔 티, 면바지, 슬랙스</item>
+        <item>반팔, 얇은 셔츠, 반바지, 면바지</item>
+        <item>민소매, 반팔, 반바지, 짧은 치마, 린넨 옷</item>
+    </string-array>
 </resources>

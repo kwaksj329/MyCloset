@@ -1,4 +1,4 @@
-package com.example.mycloset;
+package com.example.mycloset.cody;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,28 +9,32 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
+import com.example.mycloset.R;
+import com.example.mycloset.entity.Cloth;
+import com.example.mycloset.entity.Cody;
+
 import java.util.ArrayList;
 
-public class GridListAdapter extends BaseAdapter {
-    ArrayList<Cloth> cloths = new ArrayList<Cloth>();
+public class CodyGridListAdapter extends BaseAdapter {
+    ArrayList<Cody> codys = new ArrayList<Cody>();
     Context context;
 
-    public void addItem(Cloth cloth){
-        cloths.add(cloth);
+    public void addItem(Cody cody){
+        codys.add(cody);
     }
 
     public void clear(){
-        cloths.clear();
+        codys.clear();
     }
 
     @Override
     public int getCount(){
-        return cloths.size();
+        return codys.size();
     }
 
     @Override
     public Object getItem(int position){
-        return cloths.get(position);
+        return codys.get(position);
     }
 
     @Override
@@ -41,7 +45,7 @@ public class GridListAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertview, ViewGroup parent){
         context = parent.getContext();
-        Cloth listItem = cloths.get(position);
+        Cody listItem = codys.get(position);
 
         if(convertview==null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,7 +54,7 @@ public class GridListAdapter extends BaseAdapter {
 
         ImageView clothImageview = convertview.findViewById(R.id.clothImageview);
 
-        Bitmap clothBitmap  = BitmapFactory.decodeByteArray(listItem.clothImage, 0, listItem.clothImage.length);
+        Bitmap clothBitmap  = BitmapFactory.decodeByteArray(listItem.codyImage, 0, listItem.codyImage.length);
 
         clothImageview.setImageBitmap(clothBitmap);
 

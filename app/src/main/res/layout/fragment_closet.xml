@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <Spinner
-            android:id="@+id/season_spinner"
+            android:id="@+id/codySeasonSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content" />
 
         <GridView
-            android:id="@+id/closetGridview"
+            android:id="@+id/clothGridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"

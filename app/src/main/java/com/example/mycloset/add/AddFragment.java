@@ -1,4 +1,4 @@
-    package com.example.mycloset;
+    package com.example.mycloset.add;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -17,10 +17,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import com.example.mycloset.R;
 
-/**
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.ByteArrayBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+    /**
  * A simple {@link Fragment} subclass.
  * Use the {@link AddFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -31,6 +50,8 @@ public class AddFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    public static final int MANUAL = 0;
+    public static final int AUTO = 1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -89,7 +110,57 @@ public class AddFragment extends Fragment {
             sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
             byte[] byteArray = stream.toByteArray();
             intent.putExtra("image",byteArray);
+            intent.putExtra("mode", MANUAL);
             startActivity(intent);
+        });
+
+        v.findViewById(R.id.auto_btn).setOnClickListener(view -> {
+            try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
+                final HttpPost httppost = new HttpPost("http://127.0.0.1:5000" +
+                        "/post");
+                Bitmap sendBitmap = cropTouchView.getToCrop();
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+
+                final ByteArrayBody image = new ByteArrayBody(byteArray, "image");
+                final HttpEntity reqEntity = MultipartEntityBuilder.create()
+                        .addPart("image", image)
+                        .build();
+
+
+                httppost.setEntity(reqEntity);
+
+                System.out.println("executing request " + httppost);
+                try (final CloseableHttpResponse response = httpclient.execute(httppost)) {
+                    System.out.println("----------------------------------------");
+                    System.out.println(response);
+                    final HttpEntity resEntity = response.getEntity();
+                    if (resEntity != null) {
+                        System.out.println("Response content length: " + resEntity.getContentLength());
+                        InputStream ins = resEntity.getContent();
+                        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                        int nRead;
+                        byte[] data = new byte[16384];
+
+                        while ((nRead = ins.read(data, 0, data.length)) != -1) {
+                            buffer.write(data, 0, nRead);
+                        }
+
+                        byte[] responseImage = buffer.toByteArray();
+                        Intent intent = new Intent(getActivity().getApplicationContext(), ResultActivity.class);
+                        intent.putExtra("image",responseImage);
+                        intent.putExtra("mode", AUTO);
+                        startActivity(intent);
+
+                    }
+                    EntityUtils.consume(resEntity);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         });
 
         openSelectPhotoForResult();

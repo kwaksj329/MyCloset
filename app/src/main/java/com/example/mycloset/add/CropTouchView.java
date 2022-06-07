@@ -1,4 +1,4 @@
-package com.example.mycloset;
+package com.example.mycloset.add;
 
 import android.content.Context;
 import android.graphics.Bitmap;

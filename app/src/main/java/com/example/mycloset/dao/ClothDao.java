@@ -1,9 +1,11 @@
-package com.example.mycloset;
+package com.example.mycloset.dao;
 
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+
+import com.example.mycloset.entity.Cloth;
 
 import java.util.List;
 
