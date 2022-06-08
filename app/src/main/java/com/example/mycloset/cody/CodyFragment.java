@@ -44,6 +44,8 @@ public class CodyFragment extends Fragment{
     private AppDatabase db;
     private CodyDao codyDao;
     private int selectedSeason;
+    private CodyGridListAdapter adapter;
+    private GridView closetGridview;
 
 
     public CodyFragment() {
@@ -87,10 +89,10 @@ public class CodyFragment extends Fragment{
         // Inflate the layout for this fragment
         selectedSeason = 0;
         View v = inflater.inflate(R.layout.fragment_cody, container, false);
-        GridView closetGridview = v.findViewById(R.id.codyGridview);
-        CodyGridListAdapter adapter = new CodyGridListAdapter();
+        closetGridview = v.findViewById(R.id.codyGridview);
+        adapter = new CodyGridListAdapter();
 
-        Spinner season_spinner = (Spinner) v.findViewById(R.id.codySeasonSpinner);
+        /*Spinner season_spinner = (Spinner) v.findViewById(R.id.codySeasonSpinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> season_spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.season_array, android.R.layout.simple_spinner_item);
@@ -129,7 +131,33 @@ public class CodyFragment extends Fragment{
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
+        View.OnClickListener onSeasonClick = view -> {
+            adapter.clear();
+            List<Cody> temp = null;
+            switch (view.getId()){
+                case R.id.btn_spring:
+                    temp = codyDao.getSpringSelected();
+                    break;
+                case R.id.btn_summer:
+                    temp = codyDao.getSummerSelected();
+                    break;
+                case R.id.btn_fall:
+                    temp = codyDao.getFallSelected();
+                    break;
+                case R.id.btn_winter:
+                    temp = codyDao.getWinterSelected();
+                    break;
+            }
+            for (Cody tempCloth : temp) {
+                adapter.addItem(tempCloth);
+            }
+            closetGridview.setAdapter(adapter);
+        };
+        v.findViewById(R.id.btn_spring).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_summer).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_fall).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_winter).setOnClickListener(onSeasonClick);
 
         List<Cody> temp = codyDao.getSpringSelected();
 
