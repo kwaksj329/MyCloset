@@ -1,47 +1,22 @@
-    package com.example.mycloset.add;
+package com.example.mycloset.add;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.example.mycloset.MainActivity;
 import com.example.mycloset.R;
-
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.entity.mime.ByteArrayBody;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
-
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
     /**
  * A simple {@link Fragment} subclass.
@@ -149,14 +124,24 @@ public class AddFragment extends Fragment {
                         // There are no request codes
                         Intent data = result.getData();
                         Uri selectedImageUri = data.getData();
-                        Bitmap bitmap = null;
+                        Bitmap resizedImage = null;
                         try {
-                            bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver()
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getApplicationContext().getContentResolver()
                                     , selectedImageUri);
+                            int viewHeight = cropTouchView.getHeight();
+                            int viewWidth = cropTouchView.getWidth();
+                            int imageHeight = bitmap.getHeight();
+                            int imageWidth = bitmap.getWidth();
+                            if (imageHeight / (float)imageWidth > viewHeight / (float)viewWidth) {
+                                resizedImage = Bitmap.createScaledBitmap(bitmap, (imageWidth * viewHeight) / imageHeight, viewHeight, true);
+                            }
+                            else {
+                                resizedImage = Bitmap.createScaledBitmap(bitmap, viewWidth, (imageHeight * viewWidth) / imageWidth, true);
+                            }
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        cropTouchView.setToCrop(bitmap);
+                        cropTouchView.setToCrop(resizedImage);
                     }
                 }
             });
