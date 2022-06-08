@@ -14,48 +14,81 @@
             android:id="@+id/cropview"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintBottom_toTopOf="@id/LLButtons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="0dp"
-            android:layout_height="46dp"
-            android:orientation="horizontal"
+            android:id="@+id/LLButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cropview">
+            app:layout_constraintStart_toStartOf="parent">
 
-            <Button
-                android:id="@+id/clear_btn"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="clear" />
+                android:gravity="bottom"
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/complete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="complete" />
+                <Button
+                    android:id="@+id/clear_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="초기화"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="15dp"
+                    tools:layout_editor_absoluteY="579dp" />
 
-            <Button
-                android:id="@+id/result_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="result" />
+                <Button
+                    android:id="@+id/result_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="결과"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="141dp"
+                    tools:layout_editor_absoluteY="579dp" />
 
-            <Button
-                android:id="@+id/auto_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="auto" />
+                <Button
+                    android:id="@+id/complete_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="완성"
+                    android:textStyle="bold"
+                    tools:layout_editor_absoluteX="268dp"
+                    tools:layout_editor_absoluteY="579dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/auto_btn"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:text="자동선택✨"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

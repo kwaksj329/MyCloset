@@ -18,7 +18,7 @@
 
     <LinearLayout
         android:id="@+id/information_layout"
-        android:layout_width="0dp"
+        android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,96 +27,107 @@
         app:layout_constraintTop_toBottomOf="@id/result">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/codyNameTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="이름"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/clothName_editText"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_weight="4"
                 android:inputType="text" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="400dp"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textView6"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="종류" />
+                android:text="종류"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/category_spinner"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:textStyle="bold"/>
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/codySeasonTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="68dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="계절" />
+                android:text="계절"
+                android:textAlignment="center"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/spring_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="봄" />
+                android:text="봄🌷"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/summer_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="여름" />
+                android:text="여름🍉"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/fall_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="가을" />
+                android:text="가을🍁"
+                android:textStyle="bold" />
 
             <CheckBox
                 android:id="@+id/winter_checkBox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="겨울" />
+                android:text="겨울❄️"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <Button
             android:id="@+id/save_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="save" />
+            android:textStyle="bold"
+            android:text="저장" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
