@@ -1,5 +1,6 @@
 package com.example.mycloset.add;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +9,8 @@ import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,18 +27,32 @@ import com.example.mycloset.dao.ClothDao;
 import com.example.mycloset.database.AppDatabase;
 import com.example.mycloset.entity.Cloth;
 
+import org.apache.hc.client5.http.classic.methods.HttpPost;
+import org.apache.hc.client5.http.entity.mime.ByteArrayBody;
+import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
+import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.io.entity.EntityUtils;
+
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public class ResultActivity extends AppCompatActivity {
     Bitmap resultingImage;
     private String[] categoryArray;
     private String selectedCategory;
+    ImageView result;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        System.out.println("hello");
         categoryArray = getResources().getStringArray(R.array.category_array);
 
         setContentView(R.layout.resultview);
@@ -60,11 +77,12 @@ public class ResultActivity extends AppCompatActivity {
             }
         });
 
-        ImageView result = findViewById(R.id.result);
+        result = findViewById(R.id.result);
         int mode = getIntent().getIntExtra("mode", AddFragment.MANUAL);
 
         if (mode == AddFragment.MANUAL){
             byte[] arr = getIntent().getByteArrayExtra("image");
+
             Bitmap bitmap2  = BitmapFactory.decodeByteArray(arr, 0, arr.length);
 
             resultingImage = Bitmap.createBitmap(bitmap2.getWidth(),
@@ -90,13 +108,61 @@ public class ResultActivity extends AppCompatActivity {
             paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 
             canvas.drawBitmap(bitmap2, 0, 0, paint);
+            result.setImageBitmap(resultingImage);
         }
         else if (mode == AddFragment.AUTO){
-            byte[] arr = getIntent().getByteArrayExtra("image");
-            resultingImage = BitmapFactory.decodeByteArray(arr, 0, arr.length);
-        }
+            new Thread(new Runnable() {
 
-        result.setImageBitmap(resultingImage);
+                @Override
+                public void run() {
+                    try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
+                        final HttpPost httppost = new HttpPost("http://192.168.123.5:8000" +
+                                "/post");
+                        byte[] arr = getIntent().getByteArrayExtra("image");
+
+                        final ByteArrayBody image = new ByteArrayBody(arr, "image");
+                        final HttpEntity reqEntity = MultipartEntityBuilder.create()
+                                .addPart("image", image)
+                                .build();
+
+
+                        httppost.setEntity(reqEntity);
+
+                        System.out.println("executing request " + httppost);
+                        try (final CloseableHttpResponse response = httpclient.execute(httppost)) {
+                            System.out.println("----------------------------------------");
+                            System.out.println(response);
+                            final HttpEntity resEntity = response.getEntity();
+                            if (resEntity != null) {
+                                System.out.println("Response content length: " + resEntity.getContentLength());
+                                InputStream ins = resEntity.getContent();
+                                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                                int nRead;
+                                byte[] data = new byte[16384];
+
+                                while ((nRead = ins.read(data, 0, data.length)) != -1) {
+                                    buffer.write(data, 0, nRead);
+                                }
+                                arr = buffer.toByteArray();
+                                resultingImage = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+                            }
+                            EntityUtils.consume(resEntity);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            result.setImageBitmap(resultingImage);
+                        }
+                    });
+                }
+            }).start();
+        }
 
         findViewById(R.id.save_btn).setOnClickListener(view -> {
             AppDatabase db = AppDatabase.getInstance(getApplicationContext());

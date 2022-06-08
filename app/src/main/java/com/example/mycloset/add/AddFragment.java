@@ -3,6 +3,7 @@
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -12,11 +13,14 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.mycloset.MainActivity;
 import com.example.mycloset.R;
 
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -58,6 +62,7 @@ public class AddFragment extends Fragment {
     private String mParam2;
 
     private CropTouchView cropTouchView;
+    private byte[] responseImage;
 
     public AddFragment() {
         // Required empty public constructor
@@ -115,57 +120,20 @@ public class AddFragment extends Fragment {
         });
 
         v.findViewById(R.id.auto_btn).setOnClickListener(view -> {
-            try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
-                final HttpPost httppost = new HttpPost("http://127.0.0.1:5000" +
-                        "/post");
-                Bitmap sendBitmap = cropTouchView.getToCrop();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-
-                final ByteArrayBody image = new ByteArrayBody(byteArray, "image");
-                final HttpEntity reqEntity = MultipartEntityBuilder.create()
-                        .addPart("image", image)
-                        .build();
-
-
-                httppost.setEntity(reqEntity);
-
-                System.out.println("executing request " + httppost);
-                try (final CloseableHttpResponse response = httpclient.execute(httppost)) {
-                    System.out.println("----------------------------------------");
-                    System.out.println(response);
-                    final HttpEntity resEntity = response.getEntity();
-                    if (resEntity != null) {
-                        System.out.println("Response content length: " + resEntity.getContentLength());
-                        InputStream ins = resEntity.getContent();
-                        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                        int nRead;
-                        byte[] data = new byte[16384];
-
-                        while ((nRead = ins.read(data, 0, data.length)) != -1) {
-                            buffer.write(data, 0, nRead);
-                        }
-
-                        byte[] responseImage = buffer.toByteArray();
-                        Intent intent = new Intent(getActivity().getApplicationContext(), ResultActivity.class);
-                        intent.putExtra("image",responseImage);
-                        intent.putExtra("mode", AUTO);
-                        startActivity(intent);
-
-                    }
-                    EntityUtils.consume(resEntity);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            Intent intent = new Intent(getActivity().getApplicationContext(), ResultActivity.class);
+            Bitmap sendBitmap = cropTouchView.getToCrop();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            sendBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            intent.putExtra("image",byteArray);
+            intent.putExtra("mode", AUTO);
+            startActivity(intent);
         });
 
         openSelectPhotoForResult();
         return v;
     }
+
     public void openSelectPhotoForResult() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setDataAndType(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
@@ -192,4 +160,5 @@ public class AddFragment extends Fragment {
                     }
                 }
             });
+
 }
