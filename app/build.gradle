@@ -6,7 +6,6 @@ android {
     compileSdk 32
     packagingOptions {
         pickFirst "META-INF/DEPENDENCIES"
-
     }
     defaultConfig {
         applicationId "com.example.mycloset"
