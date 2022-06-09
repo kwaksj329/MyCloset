@@ -37,7 +37,6 @@ public class AddFragment extends Fragment {
     private String mParam2;
 
     private CropTouchView cropTouchView;
-    private byte[] responseImage;
 
     public AddFragment() {
         // Required empty public constructor
@@ -77,12 +76,8 @@ public class AddFragment extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_add, container, false);
         cropTouchView = v.findViewById(R.id.cropview);
-        v.findViewById(R.id.complete_btn).setOnClickListener(view -> {
-            cropTouchView.completed();
-        });
-        v.findViewById(R.id.clear_btn).setOnClickListener(view -> {
-            cropTouchView.clear();
-        });
+        v.findViewById(R.id.complete_btn).setOnClickListener(view -> cropTouchView.completed());
+        v.findViewById(R.id.clear_btn).setOnClickListener(view -> cropTouchView.clear());
         v.findViewById(R.id.result_btn).setOnClickListener(view -> {
             Intent intent = new Intent(getActivity().getApplicationContext(), ResultActivity.class);
             Bitmap sendBitmap = cropTouchView.getToCrop();

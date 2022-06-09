@@ -1,8 +1,9 @@
-package com.example.mycloset.cody;
+package com.example.mycloset.coordi;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mycloset.R;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -28,16 +32,9 @@ public class StickerBSFragment extends BottomSheetDialogFragment {
     }
 
     private StickerListener mStickerListener;
-    String selectedCategory;
-    int selectedSeason;
-    ArrayList<Bitmap> clothList;
-    public void setSelectedCategory(String selectedCategory) {
-        this.selectedCategory = selectedCategory;
-    }
-
-    public void setSelectedSeason(int selectedSeason) {
-        this.selectedSeason = selectedSeason;
-    }
+    ArrayList<QueryDocumentSnapshot> clothesList;
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReference();
 
     public void setStickerListener(StickerListener stickerListener) {
         mStickerListener = stickerListener;
@@ -84,8 +81,8 @@ public class StickerBSFragment extends BottomSheetDialogFragment {
         rvEmoji.setAdapter(stickerAdapter);
     }
 
-    public void setClothList(ArrayList arrayList){
-        clothList = arrayList;
+    public void setClothesList(ArrayList arrayList){
+        clothesList = arrayList;
     }
 
     @Override
@@ -96,6 +93,7 @@ public class StickerBSFragment extends BottomSheetDialogFragment {
 
     public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHolder> {
 
+        @NonNull
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_sticker, parent, false);
@@ -103,47 +101,35 @@ public class StickerBSFragment extends BottomSheetDialogFragment {
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            holder.imgSticker.setImageBitmap(clothList.get(position));
+        public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+            StorageReference mountainsRef = storageRef.child("clothes/" + clothesList.get(position).getId() + ".png");
+            final long ONE_MEGABYTE = 1024 * 1024;
+            mountainsRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
+                Bitmap clothesBitmap  = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                holder.imgSrc = clothesBitmap;
+                holder.imgSticker.setImageBitmap(clothesBitmap);
+            }).addOnFailureListener(Throwable::printStackTrace);
         }
 
         @Override
         public int getItemCount() {
-            return clothList.size();
+            return clothesList.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imgSticker;
-
+            Bitmap imgSrc;
             ViewHolder(View itemView) {
                 super(itemView);
                 imgSticker = itemView.findViewById(R.id.imgSticker);
 
-                itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mStickerListener != null) {
-                            mStickerListener.onStickerClick(clothList.get(getLayoutPosition()));
-                        }
-                        dismiss();
+                itemView.setOnClickListener(v -> {
+                    if (mStickerListener != null) {
+                        mStickerListener.onStickerClick(imgSrc);
                     }
+                    dismiss();
                 });
             }
         }
-    }
-
-    private String convertEmoji(String emoji) {
-        String returnedEmoji = "";
-        try {
-            int convertEmojiToInt = Integer.parseInt(emoji.substring(2), 16);
-            returnedEmoji = getEmojiByUnicode(convertEmojiToInt);
-        } catch (NumberFormatException e) {
-            returnedEmoji = "";
-        }
-        return returnedEmoji;
-    }
-
-    private String getEmojiByUnicode(int unicode) {
-        return new String(Character.toChars(unicode));
     }
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CommunityFragment">
+
+    <LinearLayout
+        android:id="@+id/LLSeasons"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/codyGridview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_spring"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/circle"
+            android:text="Spring🌷"
+            android:textColor="#2196F3"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/white"
+            app:strokeWidth="5dp" />
+
+        <Button
+            android:id="@+id/btn_summer"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/circle"
+            android:text="Summer🍉"
+            android:textColor="#2196F3"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/white" />
+
+        <Button
+            android:id="@+id/btn_fall"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/circle"
+            android:text=" Fall    🍁"
+            android:textColor="#2196F3"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/white" />
+
+        <Button
+            android:id="@+id/btn_winter"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/circle"
+            android:text="Winter❄️"
+            android:textColor="#2196F3"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="@color/white" />
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/codyGridview"
+        android:layout_width="395dp"
+        android:layout_height="0dp"
+        android:horizontalSpacing="10dp"
+        android:numColumns="3"
+        android:verticalSpacing="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/LLSeasons">
+
+    </GridView>
+</androidx.constraintlayout.widget.ConstraintLayout>

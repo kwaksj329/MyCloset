@@ -17,7 +17,7 @@ import androidx.annotation.Nullable;
 public class CropTouchView extends View {
     public static PinPoint head;
     private PinPoint current;
-    private Paint paint;
+    private final Paint paint;
     private boolean completed;
 
     private Bitmap toCrop;

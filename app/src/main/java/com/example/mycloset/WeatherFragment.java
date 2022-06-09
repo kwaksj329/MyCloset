@@ -12,7 +12,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,12 +32,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -65,7 +62,7 @@ public class WeatherFragment extends Fragment {
     private ImageView backIV, iconIV, searchIV;
     private LocationManager locationManager;
     private String cityName;
-    private int PERMISSION_CODE = 1;
+    private final int PERMISSION_CODE = 1;
     private String[] codyTipArray;
 
 
@@ -129,17 +126,14 @@ public class WeatherFragment extends Fragment {
         cityName = getCityName(location.getLongitude(), location.getLatitude());
         getWeatherInfo(cityName);
 
-        searchIV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String city = cityEdt.getText().toString();
-                if(city.isEmpty()){
-                    Toast.makeText(getActivity(), "Please enter city Name", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    cityNameTV.setText(cityName);
-                    getWeatherInfo(city);
-                }
+        searchIV.setOnClickListener(view -> {
+            String city = cityEdt.getText().toString();
+            if(city.isEmpty()){
+                Toast.makeText(getActivity(), "Please enter city Name", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                cityNameTV.setText(cityName);
+                getWeatherInfo(city);
             }
         });
         return v;

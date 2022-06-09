@@ -1,6 +1,5 @@
 package com.example.mycloset.add;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -23,9 +22,11 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.mycloset.R;
-import com.example.mycloset.dao.ClothDao;
-import com.example.mycloset.database.AppDatabase;
-import com.example.mycloset.entity.Cloth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.entity.mime.ByteArrayBody;
@@ -39,14 +40,15 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ResultActivity extends AppCompatActivity {
     Bitmap resultingImage;
     private String[] categoryArray;
     private String selectedCategory;
     ImageView result;
-
+    private static final String TAG = "EmailPassword";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class ResultActivity extends AppCompatActivity {
 
         setContentView(R.layout.resultview);
 
-        Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
+        Spinner spinner = findViewById(R.id.category_spinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
@@ -111,82 +113,87 @@ public class ResultActivity extends AppCompatActivity {
             result.setImageBitmap(resultingImage);
         }
         else if (mode == AddFragment.AUTO){
-            new Thread(new Runnable() {
+            new Thread(() -> {
+                try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
+                    final HttpPost httppost = new HttpPost("http://192.168.123.5:8000" +
+                            "/post");
+                    byte[] arr = getIntent().getByteArrayExtra("image");
 
-                @Override
-                public void run() {
-                    try (final CloseableHttpClient httpclient = HttpClients.createDefault()) {
-                        final HttpPost httppost = new HttpPost("http://192.168.123.5:8000" +
-                                "/post");
-                        byte[] arr = getIntent().getByteArrayExtra("image");
-
-                        final ByteArrayBody image = new ByteArrayBody(arr, "image");
-                        final HttpEntity reqEntity = MultipartEntityBuilder.create()
-                                .addPart("image", image)
-                                .build();
+                    final ByteArrayBody image = new ByteArrayBody(arr, "image");
+                    final HttpEntity reqEntity = MultipartEntityBuilder.create()
+                            .addPart("image", image)
+                            .build();
 
 
-                        httppost.setEntity(reqEntity);
+                    httppost.setEntity(reqEntity);
 
-                        System.out.println("executing request " + httppost);
-                        try (final CloseableHttpResponse response = httpclient.execute(httppost)) {
-                            System.out.println("----------------------------------------");
-                            System.out.println(response);
-                            final HttpEntity resEntity = response.getEntity();
-                            if (resEntity != null) {
-                                System.out.println("Response content length: " + resEntity.getContentLength());
-                                InputStream ins = resEntity.getContent();
-                                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-                                int nRead;
-                                byte[] data = new byte[16384];
+                    System.out.println("executing request " + httppost);
+                    try (final CloseableHttpResponse response = httpclient.execute(httppost)) {
+                        System.out.println("----------------------------------------");
+                        System.out.println(response);
+                        final HttpEntity resEntity = response.getEntity();
+                        if (resEntity != null) {
+                            System.out.println("Response content length: " + resEntity.getContentLength());
+                            InputStream ins = resEntity.getContent();
+                            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+                            int nRead;
+                            byte[] data = new byte[16384];
 
-                                while ((nRead = ins.read(data, 0, data.length)) != -1) {
-                                    buffer.write(data, 0, nRead);
-                                }
-                                arr = buffer.toByteArray();
-                                resultingImage = BitmapFactory.decodeByteArray(arr, 0, arr.length);
+                            while ((nRead = ins.read(data, 0, data.length)) != -1) {
+                                buffer.write(data, 0, nRead);
                             }
-                            EntityUtils.consume(resEntity);
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                            arr = buffer.toByteArray();
+                            resultingImage = BitmapFactory.decodeByteArray(arr, 0, arr.length);
                         }
+                        EntityUtils.consume(resEntity);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    Handler handler = new Handler(Looper.getMainLooper());
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            result.setImageBitmap(resultingImage);
-                        }
-                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(() -> result.setImageBitmap(resultingImage));
             }).start();
         }
 
         findViewById(R.id.save_btn).setOnClickListener(view -> {
-            AppDatabase db = AppDatabase.getInstance(getApplicationContext());
-            ClothDao clothDao = db.clothDao();
-            Cloth cloth = new Cloth();
+
+
             EditText clothNameEditText = findViewById(R.id.clothName_editText);
             CheckBox spring = findViewById(R.id.spring_checkBox);
             CheckBox summer = findViewById(R.id.summer_checkBox);
             CheckBox fall = findViewById(R.id.fall_checkBox);
             CheckBox winter = findViewById(R.id.winter_checkBox);
-            cloth.cloth_name = clothNameEditText.getText().toString();
-            cloth.spring = spring.isChecked();
-            cloth.summer = summer.isChecked();
-            cloth.fall = fall.isChecked();
-            cloth.winter = winter.isChecked();
-            cloth.category = selectedCategory;
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            resultingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            cloth.clothImage = stream.toByteArray();
-            clothDao.insertAll(cloth);
-            List<Cloth> temp = clothDao.getSpringSelected("상의");
-            for(Cloth tempCloth : temp){
-                Log.d("result", tempCloth.toString());
-            }
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+            Map<String, Object> clothes = new HashMap<>();
+            clothes.put("cloth_name", clothNameEditText.getText().toString());
+            clothes.put("spring", spring.isChecked());
+            clothes.put("summer", summer.isChecked());
+            clothes.put("fall", fall.isChecked());
+            clothes.put("winter", winter.isChecked());
+            clothes.put("category", selectedCategory);
+            clothes.put("user", user.getUid());
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+// Add a new document with a generated ID
+            db.collection("clothes")
+                    .add(clothes)
+                    .addOnSuccessListener(documentReference -> {
+                        Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId() + ", " + documentReference);
+
+                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                        StorageReference storageRef = storage.getReference();
+                        StorageReference mountainsRef = storageRef.child("clothes/" + documentReference.getId() + ".png");
+
+                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                        resultingImage.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byte[] data = stream.toByteArray();
+                        mountainsRef.putBytes(data);
+                    })
+                    .addOnFailureListener(e -> Log.w(TAG, "Error adding document", e));
 
             finish();
         });

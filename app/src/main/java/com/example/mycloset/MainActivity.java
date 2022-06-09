@@ -7,10 +7,9 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.example.mycloset.add.AddFragment;
-import com.example.mycloset.cody.CodyFragment;
+import com.example.mycloset.coordi.CoordiFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -19,11 +18,10 @@ import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity {
 
-    final String TAG = this.getClass().getSimpleName();
-
     LinearLayout home_ly;
     BottomNavigationView bottomNavigationView;
     Toolbar myToolbar;
+    private final int PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +29,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         init();
         SettingListener();
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, PERMISSION_CODE);
+        }
+
         bottomNavigationView.setSelectedItemId(R.id.tab_cody);
     }
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             switch (menuItem.getItemId()){
                 case R.id.tab_cody:{
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.home_ly, new CodyFragment())
+                            .replace(R.id.home_ly, new CoordiFragment())
                             .commit();
                     return true;
                 }
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 case R.id.tab_setting:{
                     getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.home_ly, new SettingFragment())
+                            .replace(R.id.home_ly, new CommunityFragment())
                             .commit();
                     return true;
                 }

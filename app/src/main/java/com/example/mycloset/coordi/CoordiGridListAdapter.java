@@ -1,6 +1,5 @@
-package com.example.mycloset.add;
+package com.example.mycloset.coordi;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,33 +16,28 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class GridListAdapter extends BaseAdapter {
-    ArrayList<QueryDocumentSnapshot> clothes = new ArrayList<>();
+public class CoordiGridListAdapter extends BaseAdapter {
+    ArrayList<QueryDocumentSnapshot> coordinates = new ArrayList<>();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReference();
     Context context;
 
-    public GridListAdapter(Activity context ) {
-        super();
-        this.context = context;
-    }
-
-    public void addItem(QueryDocumentSnapshot data){
-        clothes.add(data);
+    public void addItem(QueryDocumentSnapshot coordinate){
+        coordinates.add(coordinate);
     }
 
     public void clear(){
-        clothes.clear();
+        coordinates.clear();
     }
 
     @Override
     public int getCount(){
-        return clothes.size();
+        return coordinates.size();
     }
 
     @Override
     public Object getItem(int position){
-        return clothes.get(position);
+        return coordinates.get(position);
     }
 
     @Override
@@ -53,16 +47,18 @@ public class GridListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertview, ViewGroup parent){
+        context = parent.getContext();
 
         if(convertview==null){
             LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertview = inflater.inflate(R.layout.list_item, parent, false);
         }
+
         ImageView clothImageview = convertview.findViewById(R.id.clothImageview);
 
         new Thread(() -> {
-            QueryDocumentSnapshot listItem = clothes.get(position);
-            StorageReference mountainsRef = storageRef.child("clothes/" + listItem.getId() + ".png");
+            QueryDocumentSnapshot listItem = coordinates.get(position);
+            StorageReference mountainsRef = storageRef.child("coordinates/" + listItem.getId() + ".png");
             final long ONE_MEGABYTE = 1024 * 1024;
             mountainsRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytes -> {
                 Bitmap clothBitmap  = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);

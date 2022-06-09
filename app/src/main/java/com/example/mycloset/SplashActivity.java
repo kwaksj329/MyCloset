@@ -6,6 +6,8 @@ import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +22,22 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run()
             {
-                //new Intent(현재 context, 이동할 activity)
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                File file = new File(getApplicationContext().getFilesDir(), "userInfo.dat");
+                if (file.exists()){
+                    //new Intent(현재 context, 이동할 activity)
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
 
-                startActivity(intent);	//intent 에 명시된 액티비티로 이동
+                    startActivity(intent);	//intent 에 명시된 액티비티로 이동
 
-                finish();	//현재 액티비티 종료
+                    finish();	//현재 액티비티 종료
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+
+                    startActivity(intent);	//intent 에 명시된 액티비티로 이동
+
+                    finish();	//현재 액티비티 종료
+                }
             }
         }, 1500 * sec); // sec초 정도 딜레이를 준 후 시작
     }

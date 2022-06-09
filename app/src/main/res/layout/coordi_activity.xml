@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cody.CodyFragment">
+    tools:context=".coordi.CoordiFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -129,27 +129,37 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="400dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/newClothBtn"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5px"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="2"
                     android:text="옷 가져오기"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <Button
                     android:id="@+id/codySaveBtn"
-                    android:layout_width="200dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="5px"
+                    android:layout_marginHorizontal="5dp"
+                    android:layout_weight="2"
                     android:text="저장"
+                    android:textStyle="bold" />
+
+                <CheckBox
+                    android:id="@+id/publicSelectCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="게시판 공개"
                     android:textStyle="bold" />
 
             </LinearLayout>
