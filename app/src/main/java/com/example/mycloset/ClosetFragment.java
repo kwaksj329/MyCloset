@@ -1,5 +1,6 @@
 package com.example.mycloset;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,13 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Spinner;
 
 import com.example.mycloset.add.GridListAdapter;
+import com.example.mycloset.cody.CodyCreateActivity;
 import com.example.mycloset.dao.ClothDao;
 import com.example.mycloset.database.AppDatabase;
 import com.example.mycloset.entity.Cloth;
+import com.example.mycloset.entity.Cody;
 
 import java.util.List;
 
@@ -87,6 +91,104 @@ public class ClosetFragment extends Fragment {
         GridView closetGridview = v.findViewById(R.id.clothGridview);
         GridListAdapter adapter = new GridListAdapter();
 
+        View.OnClickListener onSeasonClick = view -> {
+            adapter.clear();
+            List<Cloth> temp = null;
+            switch (view.getId()){
+                case R.id.btn_spring:
+                    selectedSeason = 0;
+                    temp = clothDao.getSpringSelected(selectedCategory);
+                    break;
+                case R.id.btn_summer:
+                    selectedSeason = 1;
+                    temp = clothDao.getSummerSelected(selectedCategory);
+                    break;
+                case R.id.btn_fall:
+                    selectedSeason = 2;
+                    temp = clothDao.getFallSelected(selectedCategory);
+                    break;
+                case R.id.btn_winter:
+                    selectedSeason = 3;
+                    temp = clothDao.getWinterSelected(selectedCategory);
+                    break;
+            }
+            for (Cloth tempCloth : temp) {
+                adapter.addItem(tempCloth);
+            }
+            closetGridview.setAdapter(adapter);
+        };
+
+        View.OnClickListener onCategoryClick = view -> {
+            adapter.clear();
+            switch (view.getId()){
+                case R.id.top_btn:
+                    selectedCategory = "상의";
+                    break;
+                case R.id.outer_btn:
+                    selectedCategory = "아우터";
+                    break;
+                case R.id.pants_btn:
+                    selectedCategory = "바지";
+                    break;
+                case R.id.dress_btn:
+                    selectedCategory = "드레스";
+                    break;
+                case R.id.skirt_btn:
+                    selectedCategory = "스커트";
+                    break;
+                case R.id.bag_btn:
+                    selectedCategory = "가방";
+                    break;
+                case R.id.shoes_btn:
+                    selectedCategory = "신발";
+                    break;
+            }
+            List<Cloth> temp = null;
+            switch (selectedSeason){
+                case 0:
+                    temp = clothDao.getSpringSelected(selectedCategory);
+                    break;
+                case 1:
+                    temp = clothDao.getSummerSelected(selectedCategory);
+                    break;
+                case 2:
+                    temp = clothDao.getFallSelected(selectedCategory);
+                    break;
+                case 3:
+                    temp = clothDao.getWinterSelected(selectedCategory);
+                    break;
+            }
+            for (Cloth tempCloth : temp) {
+                adapter.addItem(tempCloth);
+            }
+            closetGridview.setAdapter(adapter);
+        };
+
+        v.findViewById(R.id.btn_spring).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_summer).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_fall).setOnClickListener(onSeasonClick);
+        v.findViewById(R.id.btn_winter).setOnClickListener(onSeasonClick);
+
+        v.findViewById(R.id.top_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.outer_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.pants_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.dress_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.skirt_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.bag_btn).setOnClickListener(onCategoryClick);
+        v.findViewById(R.id.shoes_btn).setOnClickListener(onCategoryClick);
+
+
+        List<Cloth> temp = clothDao.getSpringSelected(selectedCategory);
+
+        for (Cloth tempCloth : temp) {
+            adapter.addItem(tempCloth);
+        }
+        closetGridview.setAdapter(adapter);
+
+        return v;
+    }
+
+        /*
         Spinner season_spinner = (Spinner) v.findViewById(R.id.codySeasonSpinner);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> season_spinner_adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -126,7 +228,10 @@ public class ClosetFragment extends Fragment {
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
+
+
+        /*
         Spinner category_selector = (Spinner) v.findViewById(R.id.category_selector);
 // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> category_selector_adapter = ArrayAdapter.createFromResource(getActivity(),
@@ -175,6 +280,6 @@ public class ClosetFragment extends Fragment {
         }
         closetGridview.setAdapter(adapter);
 
-        return v;
-    }
+        return v;*/
+
 }

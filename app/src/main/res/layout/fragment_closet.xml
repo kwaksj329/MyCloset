@@ -13,38 +13,222 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/LLSelector"
-            android:layout_width="wrap_content"
+            android:id="@+id/LLSeasons"
+            android:layout_width="411dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/clothGridview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Spinner
-                android:id="@+id/category_selector"
-                android:layout_width="195dp"
-                android:layout_height="60dp" />
+            <Button
+                android:id="@+id/btn_spring"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/circle"
+                android:text="Spring🌷"
+                android:textColor="#2196F3"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/white"
+                app:strokeWidth="5dp" />
 
-            <Spinner
-                android:id="@+id/codySeasonSpinner"
-                android:layout_width="195dp"
-                android:layout_height="60dp" />
+            <Button
+                android:id="@+id/btn_summer"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/circle"
+                android:text="Summer🍉"
+                android:textColor="#2196F3"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/white" />
+
+            <Button
+                android:id="@+id/btn_fall"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="0dp"
+                android:background="@drawable/circle"
+                android:text=" Fall    🍁"
+                android:textColor="#2196F3"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/white" />
+
+            <Button
+                android:id="@+id/btn_winter"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/circle"
+                android:text="Winter❄️"
+                android:textColor="#2196F3"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/white" />
         </LinearLayout>
 
         <GridView
             android:id="@+id/clothGridview"
-            android:layout_width="391dp"
+            android:layout_width="398dp"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
+            android:layout_marginBottom="36dp"
             android:horizontalSpacing="10dp"
             android:numColumns="3"
             android:verticalSpacing="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/LLSelector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.533"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/LLSeasons" />
+
+        <LinearLayout
+            android:id="@+id/LLSelector"
+            android:layout_width="396dp"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/LLSelector" />
+            app:layout_constraintStart_toStartOf="parent">
+
+            <HorizontalScrollView
+                android:layout_width="292dp"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/top_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="상의👚"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/outer_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="아우터👕"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/pants_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="바지👖"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/dress_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="원피스👗"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/skirt_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="스커트🩲"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/bag_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="가방👜"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+
+                    <Button
+                        android:id="@+id/shoes_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="1"
+                        android:text="신발👟"
+                        android:textColor="#2196F3"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="#CDCDCD"
+                        app:strokeWidth="0.8dp" />
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <Button
+                android:id="@+id/select_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="✔"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/skyblue"
+                app:rippleColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="1"
+                android:text="X"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/skyblue" />
+
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

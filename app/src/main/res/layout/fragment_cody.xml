@@ -13,8 +13,9 @@
         <LinearLayout
             android:id="@+id/LLSeasons"
             android:layout_width="409dp"
-            android:layout_height="99dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/codyGridview"
             app:layout_constraintEnd_toEndOf="parent"
@@ -80,35 +81,63 @@
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/newBtn"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="코디 추가하기"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/codyGridview"
-            app:layout_constraintVertical_bias="0.99" />
-
         <GridView
             android:id="@+id/codyGridview"
-            android:layout_width="match_parent"
+            android:layout_width="395dp"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
             android:horizontalSpacing="10dp"
             android:numColumns="3"
             android:verticalSpacing="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/LLButtons"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/LLSeasons">
 
         </GridView>
+
+        <LinearLayout
+            android:id="@+id/LLButtons"
+            android:layout_width="410dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/codyGridview">
+
+            <Button
+                android:id="@+id/newBtn"
+                android:layout_width="290dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:text="코디 추가하기"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/select_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                android:text="✔"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/skyblue"
+                app:rippleColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:text="X"
+                android:textColor="#FFFFFF"
+                app:backgroundTint="@color/skyblue" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
