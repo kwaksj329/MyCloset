@@ -106,7 +106,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <HorizontalScrollView
-                android:layout_width="292dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
@@ -206,27 +206,6 @@
                         app:strokeWidth="0.8dp" />
                 </LinearLayout>
             </HorizontalScrollView>
-
-            <Button
-                android:id="@+id/select_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginRight="2dp"
-                android:layout_weight="1"
-                android:text="✔"
-                android:textColor="#FFFFFF"
-                app:backgroundTint="@color/skyblue"
-                app:rippleColor="#FFFFFF" />
-
-            <Button
-                android:id="@+id/delete_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_marginLeft="2dp"
-                android:layout_weight="1"
-                android:text="X"
-                android:textColor="#FFFFFF"
-                app:backgroundTint="@color/skyblue" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
