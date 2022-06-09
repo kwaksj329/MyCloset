@@ -118,12 +118,15 @@ public class CropTouchView extends View {
                             float x1 = current.getFirst(), y1 = current.getSecond(), x2 = nextPoint.getFirst(), y2 = nextPoint.getSecond();
                             float a = y2 - y1, b = x1 - x2, c = (x2 - x1) * y1 + (y1 - y2) * x1;
                             if (Math.abs(a * eventX + b * eventY + c) / Math.hypot(a, b) <= 20){
-                                createPoint = false;
-                                PinPoint middlePoint = new PinPoint(eventX, eventY);
-                                middlePoint.setNextPoint(nextPoint);
-                                current.setNextPoint(middlePoint);
-                                current = middlePoint;
-                                break;
+                                if (eventX >= Math.min(x1, x2) && eventX <= Math.max(x1, x2) &&
+                                        eventY >= Math.min(y1, y2) && eventY <= Math.max(y1, y2)) {
+                                    createPoint = false;
+                                    PinPoint middlePoint = new PinPoint(eventX, eventY);
+                                    middlePoint.setNextPoint(nextPoint);
+                                    current.setNextPoint(middlePoint);
+                                    current = middlePoint;
+                                    break;
+                                }
                             }
                         }
                     }
